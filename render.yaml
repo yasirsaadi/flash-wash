@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: flash-wash
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: APP_TZ
+        value: Asia/Baghdad
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false
