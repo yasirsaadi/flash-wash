@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: flash-wash
+    name: flashwash
     runtime: node
     region: frankfurt
     plan: free
