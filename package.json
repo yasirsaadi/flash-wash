@@ -1,14 +1,17 @@
 {
-  "name": "flash-wash-final",
-  "version": "3.0.0",
+  "name": "flash-wash",
+  "version": "3.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.21.2",
-    "better-sqlite3": "^11.7.0",
     "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2"
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1"
   }
 }
