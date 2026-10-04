@@ -182,6 +182,14 @@ app.post("/api/users", auth, admin, wrap(async (req, res) => {
     res.json({ id: r.id });
   } catch (e) { if (e.code === "23505") return res.status(400).json({ error: "اسم المستخدم موجود" }); throw e; }
 }));
+app.patch("/api/users/:id/password", auth, admin, wrap(async (req, res) => {
+  const id = intOrNull(req.params.id), np = String((req.body || {}).password || "");
+  if (np.length < 8) return res.status(400).json({ error: "كلمة المرور يجب ألا تقل عن 8 أحرف" });
+  const r = await one("UPDATE users SET password_hash=$1 WHERE id=$2 RETURNING username", [bcrypt.hashSync(np, 10), id]);
+  if (!r) return res.status(404).json({ error: "المستخدم غير موجود" });
+  await audit(req.user.id, "إعادة تعيين كلمة المرور", "user", id, r.username);
+  res.json({ ok: true });
+}));
 app.patch("/api/users/:id/active", auth, admin, wrap(async (req, res) => {
   const id = intOrNull(req.params.id);
   if (id === req.user.id) return res.status(400).json({ error: "لا يمكنك إيقاف حسابك" });
